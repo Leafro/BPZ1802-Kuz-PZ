@@ -1,0 +1,166 @@
+﻿<Window x:Class="Client_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client_WPF"
+        mc:Ignorable="d"
+        Title="Перечень олимпиад школьников" Height="550" Width="800" ResizeMode="CanMinimize">
+
+    <Grid Background="Bisque">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TabControl Grid.Column="0">
+
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Список</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <TabItem.Content>
+                    <StackPanel>
+
+                        <ListBox Background="Goldenrod" ItemsSource="{Binding CompetitionsLists}" SelectedItem="{Binding SelectedCompetitionsList}" Height="430" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5">
+                                        <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Path=Name}" />
+                                        <TextBlock Text="{Binding Path=Theme}" />
+                                        
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Button Command="{Binding DownCommand}"
+                            CommandParameter="{Binding CompetitionsLists.Count}">Загрузить ещё</Button>
+
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem >
+
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Текущая сессия</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <TabItem.Content>
+                    <StackPanel>
+
+                        <ListBox Background="Goldenrod" ItemsSource="{Binding CacheList}" SelectedItem="{Binding SelectedCompetitionsList}" Height="410" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5">
+                                        <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Path=Name}" />
+                                        <TextBlock Text="{Binding Path=Theme}" />
+                                        
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Button Command="{Binding AddCommand}"
+                                CommandParameter="{Binding SelectedCompetitionsList}">Добавить в избранное</Button>
+                        <Button Command="{Binding RemoveCommand}"
+                            CommandParameter="{Binding SelectedCompetitionsList}">Удалить</Button>
+
+
+                    </StackPanel>
+                </TabItem.Content>
+
+            </TabItem>
+
+            <TabItem >
+
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3"><Run Text="Избранное"/></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <TabItem.Content>
+                    <StackPanel>
+
+                        <ListBox Background="Goldenrod" ItemsSource="{Binding Favorites}" SelectedItem="{Binding SelectedCompetitionsList}" Height="410" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5">
+                                        <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Path=Name}" />
+                                        <TextBlock Text="{Binding Path=Theme}" />
+                                        
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Button Command="{Binding UpdateCommand}">Обновить</Button>
+                        <Button Command="{Binding ClearCommand}">Очистить избранное</Button>
+
+                    </StackPanel>
+                </TabItem.Content>
+
+            </TabItem>
+
+        </TabControl>
+
+        <WrapPanel Grid.Column="1" Width="180" Height="30" VerticalAlignment="Top" Margin="0 30" >
+
+            <TextBlock Grid.Column="1" Foreground="Black" FontSize="14" Text="Загружено " />
+            <TextBlock Grid.Column="1" Foreground="Black" FontSize="14" Text="{Binding CompetitionsLists.Count}" FontWeight="Bold" />
+            <TextBlock Grid.Column="1" Foreground="Black" FontSize="14" Text=" из " />
+            <TextBlock Grid.Column="1" Foreground="Black" FontSize="14" Text="{Binding dbSize}" FontWeight="Bold" />
+
+        </WrapPanel>
+
+        <StackPanel Grid.Column="1" Margin="0 85" DataContext="{Binding SelectedCompetitionsList}">
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" VerticalAlignment="Top">
+            <Run FontSize="14">Тип олимпиады:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding OlympiadType}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">Класс:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding Class}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black"  TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">Этап:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding Stage}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">Дата олипиады:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding OlympiadDate}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">Учебный год:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding SchoolYear}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">WebSite:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding WebSite[0].WebSite}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+
+        </StackPanel>
+
+    </Grid>
+
+</Window>
